@@ -42,6 +42,10 @@ Dockerfile and docker-compose.yml could by provided if needed, but basicaly, jus
 After the enviroment is working, you will need to run a composer install comand in order to get the PHPunit dependensies, then you can run all the unit 
 test by running this command "./vendor/bin/phpunit tests"
 
+Last thing will be to run the sql script "myDb.sql" in order to create the tables.
+
+Tables are empty, so, a good start point will be to add 100 rand products by clicking on this option in the index.php file.
+
 ## Test
 Here are the test that are going to run when you execute the PHPunit command:
 - testGetProductById
