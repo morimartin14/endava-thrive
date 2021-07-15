@@ -4,9 +4,12 @@ namespace Models;
 
 use Helpers\DatabaseConfig;
 use mysqli;
+use function Controllers\generateRandomString;
 
 class RecentlyViewedProduct {
     private $id, $product_id, $user_id, $last_viewed_date;
+
+    private $productsArray = [];
 
     /**
      * RecentlyViewedProduct constructor.
@@ -153,7 +156,24 @@ class RecentlyViewedProduct {
             $productsArray[] = $product;
         }
         DatabaseConfig::disconnect($con);
+
+        if (empty($productsArray)) {
+            $productsArray = self::getFallbackList();
+        }
+
         return $productsArray;
+    }
+
+    static public function getFallbackList() {
+        $fallbackList = [];
+        for ($i = 0; $i < 10; $i++) {
+            $name = $_GET['name'] ?? generateRandomString(10);
+            $desc = $_GET['desc'] ?? generateRandomString(10) . ' ' . generateRandomString(15) . ' ' . generateRandomString(8);
+            $price = $_GET['price'] ?? rand(0, 10);
+            $fallbackList[] = new Products($name, $desc, $price);
+        }
+
+        return $fallbackList;
     }
 
     static public function getByUserAndProductId($uid, $pid) {

@@ -3,6 +3,7 @@
 namespace Models;
 include "../Helpers/DatabaseConfig.php";
 use Helpers\DatabaseConfig;
+use function Controllers\generateRandomString;
 
 class Products {
     private $id, $name, $description, $price;
@@ -141,9 +142,5 @@ class Products {
         $nextPage = $pages != $currentPage ? $currentPage + 1 : false;
 
         return ['products' => $productsArray, 'total' => $queryTotal, 'start' => $start, 'end' => $end, 'previousPage' => $previousPage, 'nextPage' => $nextPage];
-    }
-
-    static public function getFallbackList() {
-
     }
 }
