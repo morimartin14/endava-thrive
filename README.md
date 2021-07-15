@@ -33,9 +33,9 @@ In this app you can:
 
 
 ## Screenshots
-![Example screenshot](./assets/img/1.png)
+![Screenshot 1](https://raw.githubusercontent.com/morimartin14/endava-thrive/master/assets/img/screenshots/1.png)
 
-![Example screenshot](./assets/img/2.png)
+![Screenshot 2](https://raw.githubusercontent.com/morimartin14/endava-thrive/master/assets/img/screenshots/2.png)
 
 ## Setup
 Dockerfile and docker-compose.yml could by provided if needed, but basicaly, just need any developmen environmet with Apache, MySql and composer will work.
