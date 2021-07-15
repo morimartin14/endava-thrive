@@ -6,7 +6,7 @@ use Helpers\DatabaseConfig;
 use mysqli;
 
 class RecentlyViewedProduct {
-    private $product_id, $user_id, $last_viewed_date;
+    private $id, $product_id, $user_id, $last_viewed_date;
 
     /**
      * RecentlyViewedProduct constructor.
@@ -19,6 +19,22 @@ class RecentlyViewedProduct {
         $this->product_id = $product_id;
         $this->user_id = $user_id;
         $this->last_viewed_date = $last_viewed_date ?? date('Y-m-d H:i:s');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -126,7 +142,7 @@ class RecentlyViewedProduct {
 
     static public function getByUser($uid) {
         $con = DatabaseConfig::connect();
-        $query = $con->prepare("SELECT * FROM product where id in (SELECT product_id from recently_viewed_product WHERE user_id = ? ORDER BY last_view_date desc) LIMIT 100");
+        $query = $con->prepare("SELECT product.id, product.name, product.description, product.price FROM product JOIN recently_viewed_product as rw on rw.product_id = product.id WHERE rw.user_id = ? ORDER BY rw.last_view_date desc LIMIT 100");
         $query->bind_param("i", $uid);
         $query->execute();
         $query->bind_result($id, $name, $description, $price);
@@ -139,6 +155,23 @@ class RecentlyViewedProduct {
         DatabaseConfig::disconnect($con);
         return $productsArray;
     }
+
+    static public function getByUserAndProductId($uid, $pid) {
+        $con = DatabaseConfig::connect();
+        $query = $con->prepare("SELECT recently_viewed_product.id, recently_viewed_product.product_id, recently_viewed_product.user_id, recently_viewed_product.last_view_date FROM recently_viewed_product WHERE user_id = ? and product_id = ? ORDER BY last_view_date desc LIMIT 100");
+        $query->bind_param("ii", $uid, $pid);
+        $query->execute();
+        $query->bind_result($id, $product_id, $user_id, $last_view_date);
+        $productsArray = [];
+        while ($query->fetch()) {
+            $product = new RecentlyViewedProduct($product_id, $user_id, $last_view_date);
+            $product->setId($id);
+            $productsArray[] = $product;
+        }
+        DatabaseConfig::disconnect($con);
+        return $productsArray;
+    }
+
 
     public function remove() {
         $temporaryCon = DatabaseConfig::connect();

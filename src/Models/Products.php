@@ -81,7 +81,6 @@ class Products {
         $this->setId(mysqli_insert_id($con));
         DatabaseConfig::disconnect($con);
         return $this;
-
     }
 
     static public function getById($id) {
