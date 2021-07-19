@@ -8,7 +8,6 @@
 * [Setup](#setup)
 * [Usage](#usage)
 * [Project Status](#project-status)
-* [Contact](#contact)
 <!-- * [License](#license) -->
 ## General Information
 - Objective:
