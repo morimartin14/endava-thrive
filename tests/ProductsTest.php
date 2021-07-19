@@ -7,7 +7,8 @@ final class ProductsTest extends TestCase
 {
     public function testGetProductById(): void
     {
-        $product = \Models\Products::getById(371);
+        $products = \Models\Products::getAll(1);
+        $product = \Models\Products::getById($products['products'][0]->getId());
         $this->assertInstanceOf(
             \Models\Products::class,
             $product
